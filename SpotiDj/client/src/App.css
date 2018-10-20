@@ -14,12 +14,25 @@
   color: white;
 }
 
+h1 {
+  -webkit-filter: drop-shadow(5px 5px 5px #222 );
+  filter: drop-shadow(5px 5px 5px #222);
+  color: rgb(233, 233, 233);
+}
+
 .App-title {
   font-size: 1.5em;
+   -webkit-filter: drop-shadow(5px 5px 5px #222 );
+  filter: drop-shadow(5px 5px 5px #222);
 }
 
 .App-intro {
   font-size: large;
+}
+
+.album {
+  -webkit-filter: drop-shadow(5px 5px 5px #222 );
+  filter: drop-shadow(5px 5px 5px #222);
 }
 
 @keyframes App-logo-spin {
