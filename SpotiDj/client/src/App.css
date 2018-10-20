@@ -13,6 +13,22 @@
   padding: 20px;
   color: white;
 }
+.button {
+  background-color: #6e6e6e; /* Green */
+    border: none;
+    color: white;
+    padding: 0px 25px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    height: 35px;
+    font-size: 20px;
+}
+
+input {
+  line-height: 30px;
+  font-size: 23px;
+}
 
 h1 {
   -webkit-filter: drop-shadow(5px 5px 5px #222 );

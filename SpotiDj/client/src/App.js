@@ -29,6 +29,8 @@ const onSuggestionsClearRequested = () => {
   });
 };
 
+
+
 class App extends Component {
   constructor(){
     super();
@@ -42,16 +44,25 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
       suggestions: {title: '', uri: ''},
+      toggleSkip: false,
       background: [],
       search: ''
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePress = this.handlePress.bind(this);
   }
 
   handleChange(event) {
     this.setState({search: event.target.value});
+  }
+
+  handlePress(e) {
+    this.setState({
+      toggleSkip: !e.toggleSkip
+    });
+    console.log('The link was clicked.');
   }
 
   async handleSubmit (event) {
@@ -131,12 +142,12 @@ class App extends Component {
 
   
 
-  
-
   render() {
     
     document.body.style = this.state.background ? `background: rgb(${this.state.background[0]}, ${this.state.background[1]}, ${this.state.background[2]});`: 'background:white';
 
+
+    
     return (
       <div className="App">
         <a href={`http://${window.location.hostname}:8888`} > Login to Spotify </a>
@@ -151,10 +162,10 @@ class App extends Component {
           <label>
             <input className="" type="text" value={this.state.search} onChange={this.handleChange} />
           </label>
-        <input type="submit" value="I'm feeling lucky"/>
+        <input className="button" type="submit" value="I'm feeling lucky"/>
         </form>   
         }
-        <button>
+        <button onClick={this.handlePress}>
           Skip
         </button>
         {/* <Autosuggest
