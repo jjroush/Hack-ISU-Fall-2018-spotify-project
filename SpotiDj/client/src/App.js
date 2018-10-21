@@ -88,11 +88,11 @@ class App extends Component {
   handlePress(e) {
     if(this.state.toggleSkip == false) {
       this.putReq();
-    }
+      alert(`You have voted to skip ${this.state.nowPlaying.name}.`)
+    } 
     this.setState({
       toggleSkip: !e.toggleSkip
     });
-    console.log('The link was clicked.');
   }
 
   async handleSubmit (event) {
@@ -196,9 +196,7 @@ class App extends Component {
         <input className="button" type="submit" value="I'm feeling lucky"/>
         </form>   
         }
-        <button onClick={this.handlePress}>
-          Skip
-        </button>
+         <img src={require('./1384165-200.png')} onClick={this.handlePress} />
       </div>
     );
   }
