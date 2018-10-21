@@ -35,13 +35,13 @@ class App extends Component {
   constructor(){
     super();
     const params = this.getHashParams();
-    const token = params.access_token;
-    if (token) {
-      spotifyApi.setAccessToken(token);
+    this.token = params.access_token;
+    if (this.token) {
+      spotifyApi.setAccessToken(this.token);
     }
     this.refresh;
     this.state = {
-      loggedIn: token ? true : false,
+      loggedIn: this.token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
       suggestions: {title: '', uri: ''},
       toggleSkip: false,
@@ -49,16 +49,46 @@ class App extends Component {
       search: ''
     }
 
+    this.resetState = this.resetState.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePress = this.handlePress.bind(this);
+    this.putReq = this.putReq.bind(this);
   }
 
   handleChange(event) {
     this.setState({search: event.target.value});
   }
 
+  putReq() {
+    return fetch(`/vote`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      referer: "no-referer",
+      body: JSON.stringify({vote: true,
+      token: this.token}),
+    })
+    .then(response => response.json());
+    // .then(this.resetState());
+    
+  }
+  
+
+  resetState = () => {
+    setTimeout(function(){
+  
+      this.setState({toggleSkip:false});
+  
+    }.bind(this),25000)
+    }
+
   handlePress(e) {
+    if(this.state.toggleSkip == false) {
+      this.putReq();
+    }
     this.setState({
       toggleSkip: !e.toggleSkip
     });
@@ -124,13 +154,14 @@ class App extends Component {
         console.error(err);
       });
   }
-
+  
   addSongToPlaylist = () => {
     
     spotifyApi.addTracksToPlaylist('xs1iffq84e1qt8q547evm59xd', '3AjZgHa272XhpUYVWphUXP', [this.state.suggestions.array]) 
     .then(console.log('done'));
   }
 
+  
 
   sleep = () => {
     return new Promise(resolve => {
@@ -168,14 +199,6 @@ class App extends Component {
         <button onClick={this.handlePress}>
           Skip
         </button>
-        {/* <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-      /> */}
       </div>
     );
   }
